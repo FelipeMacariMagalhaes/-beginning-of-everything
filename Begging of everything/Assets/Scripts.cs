@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Scripts : MonoBehaviour
@@ -17,12 +18,16 @@ public class Scripts : MonoBehaviour
     public float raioChao = 0.2f;
 
     public LayerMask camadaChao;
-
+    
 
 
     private Rigidbody2D rb;
 
     private bool estaNoChao;
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip somPasso;
+    public bool tocandoPasso = false;
 
 
 
@@ -39,18 +44,13 @@ public class Scripts : MonoBehaviour
     void Update()
 
     {
-
-        // Verifica se est· no ch„o usando OverlapCircle 
-
-        estaNoChao = Physics2D.OverlapCircle(checagemChao.position, raioChao, camadaChao);
-
-
+      estaNoChao = Physics2D.OverlapCircle(checagemChao.position, raioChao, camadaChao);
 
         // Movimento horizontal 
 
         float horizontal = Input.GetAxisRaw("Horizontal");
 
-        rb.velocity = new Vector2(horizontal * velocidade, rb.velocity.y);
+        rb.linearVelocity = new Vector2(horizontal * velocidade, rb.linearVelocity.y);
 
 
 
@@ -60,32 +60,45 @@ public class Scripts : MonoBehaviour
 
         {
 
-            rb.velocity = new Vector2(rb.velocity.x, forcaPulo);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, forcaPulo);
 
         }
-
-    }
-
-
-
-    void OnDrawGizmosSelected()
-
-    {
-
-        // Desenha o cÌrculo da checagem de ch„o no editor 
-
-        if (checagemChao != null)
-
+        if (estaNoChao && horizontal != 0 && !tocandoPasso)
         {
-
-            Gizmos.color = Color.green;
-
-            Gizmos.DrawWireSphere(checagemChao.position, raioChao);
+            StartCoroutine(TocarSomPasso());
+            System.Collections.IEnumerator TocarSomPasso()
+            {
+                tocandoPasso = true;
+                audioSource.PlayOneShot(somPasso);
+                yield return new WaitForSeconds(somPasso.length);
+                tocandoPasso = false;
+            }
 
         }
-
     }
-
+    void OnDrawGizmosSelected()
+    {
+        // Desenha o c√≠rculo da checagem de ch√£o no editor
+        if (checagemChao != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(checagemChao.position, raioChao);
+        }
+    }
 }
+
+
+   
+
+
+
+ 
+
+        
+
+    
+    
+
+
 
 
