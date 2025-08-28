@@ -28,6 +28,7 @@ public class Scripts : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip somPasso;
     public bool tocandoPasso = false;
+    private Animator animator;
 
 
 
@@ -36,46 +37,36 @@ public class Scripts : MonoBehaviour
     {
 
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
 
     }
 
 
 
-    void Update()
-
-    {
-      estaNoChao = Physics2D.OverlapCircle(checagemChao.position, raioChao, camadaChao);
-
-        // Movimento horizontal 
-
-        float horizontal = Input.GetAxisRaw("Horizontal");
-
-        rb.linearVelocity = new Vector2(horizontal * velocidade, rb.linearVelocity.y);
-
-
-
-        // Pular 
-
-        if (Input.GetButtonDown("Jump") && estaNoChao)
-
+    
+        void Update()
         {
+            // Movimento
+            float horizontal = Input.GetAxisRaw("Horizontal");
+            rb.velocity = new Vector2(horizontal * velocidade, rb.velocity.y);
 
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, forcaPulo);
+            // Animação
+            if (horizontal != 0)
+                animator.SetBool("andando", true);
+            else
+                animator.SetBool("andando", false);
 
-        }
-        if (estaNoChao && horizontal != 0 && !tocandoPasso)
-        {
-            StartCoroutine(TocarSomPasso());
-            System.Collections.IEnumerator TocarSomPasso()
+            animator.SetFloat("velocidade", horizontal);
+
+            // Checagem de chão
+            estaNoChao = Physics2D.OverlapCircle(checagemChao.position, raioChao, camadaChao);
+
+            // Pulo
+            if (Input.GetButtonDown("Jump") && estaNoChao)
             {
-                tocandoPasso = true;
-                audioSource.PlayOneShot(somPasso);
-                yield return new WaitForSeconds(somPasso.length);
-                tocandoPasso = false;
+                rb.velocity = new Vector2(rb.velocity.x, forcaPulo);
             }
-
         }
-    }
     void OnDrawGizmosSelected()
     {
         // Desenha o círculo da checagem de chão no editor
