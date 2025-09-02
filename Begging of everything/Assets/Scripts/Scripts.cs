@@ -53,8 +53,10 @@ public class Scripts : MonoBehaviour
             // Animação
             if (horizontal != 0)
                 animator.SetBool("andando", true);
+        
             else
                 animator.SetBool("andando", false);
+        animator.SetBool("Idle", true);
 
             animator.SetFloat("velocidade", horizontal);
 
