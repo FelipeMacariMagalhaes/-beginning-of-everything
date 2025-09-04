@@ -9,10 +9,6 @@ public class GerenciadorDialogo : MonoBehaviour
     public GameObject npcCavaleiro; 
     private int indiceFala = 0;
     public bool dialogoAtivo = false;
-    
-
-
-
     void Start()
     {
 
@@ -73,7 +69,7 @@ public class GerenciadorDialogo : MonoBehaviour
 
         if (npcCavaleiro != null)
         {
-            npcCavaleiro.SetActive(false); // Ou: Destroy(npcBruxa);
+            npcCavaleiro.SetActive(false); 
         }
     }
 }
