@@ -48,7 +48,7 @@ public class Scripts : MonoBehaviour
         {
             // Movimento
             float horizontal = Input.GetAxisRaw("Horizontal");
-            rb.velocity = new Vector2(horizontal * velocidade, rb.velocity.y);
+            rb.linearVelocity = new Vector2(horizontal * velocidade, rb.linearVelocity.y);
 
             // Animação
             if (horizontal != 0)
@@ -66,7 +66,7 @@ public class Scripts : MonoBehaviour
             // Pulo
             if (Input.GetButtonDown("Jump") && estaNoChao)
             {
-                rb.velocity = new Vector2(rb.velocity.x, forcaPulo);
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, forcaPulo);
             }
         }
     void OnDrawGizmosSelected()
