@@ -5,6 +5,7 @@ public class SwapScene : MonoBehaviour
 {
 
     
+
     private bool jogadorPerto = false;
 
 
