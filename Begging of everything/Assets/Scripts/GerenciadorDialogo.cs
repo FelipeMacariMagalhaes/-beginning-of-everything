@@ -3,73 +3,72 @@ using TMPro;
 
 public class GerenciadorDialogo : MonoBehaviour
 {
-    
-    public TextMeshProUGUI textoNPC;
-    public string[] falasNPC;
-    public GameObject npcCavaleiro; 
-    private int indiceFala = 0;
-      private  bool dialogoAtivo = false;
-    void Start()
-    {
 
-    }
+    public GameObject dialogueUI; // Painel de diálogo
+    public TextMeshProUGUI dialogueText;     // Texto da fala do NPC
+    [TextArea(2, 5)]
+    public string[] dialogueLines; // Falas do NPC
+
+    private bool isPlayerNear = true;
+    private int currentLine = 0;
+    private bool isDialogueActive = false;
 
     void Update()
     {
-        if (dialogoAtivo && Input.GetKeyDown(KeyCode.Space))
+        if (isPlayerNear && Input.GetKeyDown(KeyCode.E))
         {
-            AvancarFala();
+            if (!isDialogueActive)
+            {
+                StartDialogue();
+            }
+            else
+            {
+                NextLine();
+            }
         }
     }
 
-    public void IniciarDialogo()
+    void StartDialogue()
     {
-        if (falasNPC.Length == 0 ) return;
-
-        indiceFala = 0;
-        
-        AtualizarFalas();
-        dialogoAtivo = true;
-
-
+        isDialogueActive = true;
+        currentLine = 0;
+        dialogueUI.SetActive(true);
+        dialogueText.text = dialogueLines[currentLine];
     }
 
-    void AvancarFala()
+    void NextLine()
     {
-        indiceFala++;
-
-        if (indiceFala < falasNPC.Length )
+        currentLine++;
+        if (currentLine < dialogueLines.Length)
         {
-            AtualizarFalas();
-
-            if (indiceFala == falasNPC.Length - 1)
-            {
-                
-            }
+            dialogueText.text = dialogueLines[currentLine];
         }
         else
         {
-
-            FecharDialogo();
+            EndDialogue();
         }
     }
 
-    void AtualizarFalas()
+    void EndDialogue()
     {
-        textoNPC.text = falasNPC[indiceFala];
-        
-
-
+        isDialogueActive = false;
+        dialogueUI.SetActive(false);
     }
 
-    
-    public void FecharDialogo()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        dialogoAtivo = false;
-
-        if (npcCavaleiro != null)
+        if (collision.CompareTag("Player"))
         {
-            npcCavaleiro.SetActive(false); 
+            isPlayerNear = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            isPlayerNear = false;
+            EndDialogue(); // Fecha o diálogo se sair de perto
         }
     }
 }
