@@ -4,7 +4,7 @@ using UnityEngine.Rendering;
 public class InteracaoNpcs : MonoBehaviour
 {
     private bool jogadorPerto = false;
-    public GerenciadorDeDialogo gerenciadorDialogo;
+    public GerenciadorDialogo gerenciadorDialogo;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,7 +17,7 @@ public class InteracaoNpcs : MonoBehaviour
         gerenciadorDialogo.IniciarDialogo();
         if (jogadorPerto && Input.GetKeyDown(KeyCode.E))
         {
-            gerenciadorDialogo.npcGuerra = this.gameObject;
+            gerenciadorDialogo.npcCavaleiro = this.gameObject;
         }
     }
     void OnTriggerEnter2D(Collider2D other)

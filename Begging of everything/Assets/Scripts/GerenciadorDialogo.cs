@@ -8,7 +8,7 @@ public class GerenciadorDialogo : MonoBehaviour
     public string[] falasNPC;
     public GameObject npcCavaleiro; 
     private int indiceFala = 0;
-    public bool dialogoAtivo = false;
+      private  bool dialogoAtivo = false;
     void Start()
     {
 
@@ -16,7 +16,7 @@ public class GerenciadorDialogo : MonoBehaviour
 
     void Update()
     {
-        if (dialogoAtivo  && Input.GetKeyDown(KeyCode.Space))
+        if (dialogoAtivo && Input.GetKeyDown(KeyCode.Space))
         {
             AvancarFala();
         }
