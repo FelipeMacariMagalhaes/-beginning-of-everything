@@ -43,31 +43,40 @@ public class Scripts : MonoBehaviour
 
 
 
-    
-        void Update()
+
+    void Update()
+    {
+        // Movimento
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        rb.linearVelocity = new Vector2(horizontal * velocidade, rb.linearVelocity.y);
+
+        // Animação
+        if (horizontal != 0)
         {
-            // Movimento
-            float horizontal = Input.GetAxisRaw("Horizontal");
-            rb.linearVelocity = new Vector2(horizontal * velocidade, rb.linearVelocity.y);
+            animator.Play("run");
+           
+        }
 
-            // Animação
-            if (horizontal != 0)
-                animator.SetBool("andando", true);
-        
-            else
-                animator.SetBool("andando", false);
-        animator.SetBool("Idle", true);
+        else
 
-            animator.SetFloat("velocidade", horizontal);
+        {
+            animator.Play("idle");
 
-            // Checagem de chão
-            estaNoChao = Physics2D.OverlapCircle(checagemChao.position, raioChao, camadaChao);
 
-            // Pulo
-            if (Input.GetButtonDown("Jump") && estaNoChao)
-            {
-                rb.linearVelocity = new Vector2(rb.linearVelocity.x, forcaPulo);
-            }
+        }
+        if (horizontal < 0)
+        {
+            GetComponent<SpriteRenderer>().flipX = true;
+        }
+        else if (horizontal > 0)
+        {
+            GetComponent<SpriteRenderer>().flipX = false;
+        }
+
+        // Checagem de chão
+        estaNoChao = Physics2D.OverlapCircle(checagemChao.position, raioChao, camadaChao);
+
+
         }
     void OnDrawGizmosSelected()
     {
