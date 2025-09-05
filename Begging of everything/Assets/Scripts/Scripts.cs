@@ -1,86 +1,55 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Scripts : MonoBehaviour
 {
     [Header("Movimento")]
-
     public float velocidade = 5f;
-
-
-
-    [Header("Pulo")]
-
     public float forcaPulo = 12f;
-
     public Transform checagemChao;
-
     public float raioChao = 0.2f;
-
     public LayerMask camadaChao;
-    
-
 
     private Rigidbody2D rb;
-
     private bool estaNoChao;
+
     [Header("Audio")]
     public AudioSource audioSource;
     public AudioClip somPasso;
-    public bool tocandoPasso = false;
+    private bool tocandoPasso = false;
+
     private Animator animator;
-
-
+    private SpriteRenderer spriteRenderer;
 
     void Start()
-
     {
-
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
-
-
-
 
     void Update()
     {
-        // Movimento
+        // Entrada do eixo horizontal
         float horizontal = Input.GetAxisRaw("Horizontal");
+
+        // Aplica movimento usando linearVelocity (Unity nova)
         rb.linearVelocity = new Vector2(horizontal * velocidade, rb.linearVelocity.y);
 
-        // Animação
-        if (horizontal != 0)
-        {
-            animator.Play("run");
-           
-        }
+        // Atualiza animação
+        animator.SetFloat("speed", Mathf.Abs(horizontal));
 
-        else
-
-        {
-            animator.Play("idle");
-
-
-        }
+        // Espelha sprite
         if (horizontal < 0)
-        {
-            GetComponent<SpriteRenderer>().flipX = true;
-        }
+            spriteRenderer.flipX = true;
         else if (horizontal > 0)
-        {
-            GetComponent<SpriteRenderer>().flipX = false;
-        }
+            spriteRenderer.flipX = false;
 
-        // Checagem de chão
+        // Verifica se está no chão
         estaNoChao = Physics2D.OverlapCircle(checagemChao.position, raioChao, camadaChao);
+    }
 
-
-        }
     void OnDrawGizmosSelected()
     {
-        // Desenha o círculo da checagem de chão no editor
         if (checagemChao != null)
         {
             Gizmos.color = Color.green;
@@ -90,16 +59,14 @@ public class Scripts : MonoBehaviour
 }
 
 
-   
 
 
 
- 
 
-        
 
-    
-    
+
+
+
 
 
 

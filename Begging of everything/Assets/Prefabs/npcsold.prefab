@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 6582887846923647156}
   - component: {fileID: 1840324683892402859}
   - component: {fileID: 3314197432242316050}
-  - component: {fileID: 1170456316051633167}
   m_Layer: 0
   m_Name: npcsold
   m_TagString: Untagged
@@ -186,19 +185,3 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!111 &1170456316051633167
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2841145465511862519}
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Animation: {fileID: 7400000, guid: fb97e6a4a76ee264a8cdda43eb9048b4, type: 2}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_UpdateMode: 0
-  m_CullingType: 0
